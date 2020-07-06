@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="New Attribute Information" [options]="false" *ngIf="attributeGroupList">
+
+
+            <hr>
+            <form action="javascript:" [formGroup]="editForm">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="inputTitle4">Title</label>
+                        <input type="title" formControlName="title" class="form-control" id="inputTitle4"
+                               placeholder="Title">
+                        <div ngxErrors="title" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                            <div ngxError="title" when="touched">
+                                title format is incorrect
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputshortcode4">Short Code</label>
+                        <input type="short_code" formControlName="short_code" class="form-control" id="inputshortcode4"
+                               placeholder="Short Code">
+                        <div ngxErrors="short_code" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group col-md-3">
+                        <label for="inputGroup">Select Attribute Group</label>
+
+                        <ng-select
+                                [items]="attributeGroupList"
+                                bindLabel="name"
+                                placeholder="Select Group"
+                                formControlName="attributeGroups"
+                                id="inputGroup" [multiple]="true"></ng-select>
+
+                        <div ngxErrors="attributeGroups" class="error">
+                            <div ngxError="required" when="touched">
+                                Please select group
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputGroup">Attribute Type</label>
+
+                        <ng-select [ngClass]="'ng-select'" placeholder="Select Type"
+                                   formControlName="type"
+                                   [items]="attributeTypeDropDown"
+                                   bindValue="type"
+                                   bindLabel="type"></ng-select>
+
+                        <div ngxErrors="type" class="error">
+                            <div ngxError="required" when="touched">
+                                Please select type
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <div class="switch switch-primary d-inline m-r-10">
+                                <input type="checkbox" formControlName="active" id="gridCheck">
+                                <label class="cr" for="gridCheck"></label>
+                            </div>
+                            <label type="button" for="gridCheck">Active</label>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <div class="switch switch-primary d-inline m-r-10">
+                                <input type="checkbox" formControlName="is_filter" id="filterCheck">
+                                <label class="cr" for="filterCheck"></label>
+                            </div>
+                            <label for="filterCheck">Is Filter?</label>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="button" class="btn btn-primary" [disabled]="editForm.invalid" type="submit"
+                        (click)="onSubmit()"><i class="feather icon-save"> </i> &nbsp;Save
+                </button>
+
+            </form>
+
+        </app-card>
+    </div>
+</div>

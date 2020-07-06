@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <app-card cardTitle="New Joint Attribute" [options]="false">
+            <hr>
+            <form action="javascript:" [formGroup]="addForm">
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputTitle">Joint Attribute Title</label>
+                        <input type="title" formControlName="name" class="form-control" id="inputTitle"
+                            placeholder="Title">
+                        <div ngxErrors="name" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputGroup">Select Attribute Group</label>
+                        <ng-select [ngClass]="'ng-select'" placeholder="Select Group"
+                                   formControlName="attributeGroups"
+                                   [items]="attributeGroupDropDown"
+                                   id="inputGroup"
+                                   [multiple]="true"
+                                   bindLabel="name"></ng-select>
+                        <div ngxErrors="attributeGroups" class="error">
+                            <div ngxError="required" when="touched">
+                                Please select group
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Select Attributes</label>
+                        <dual-list [source]="attributeList" [key]="'id'" [display]="'title'"
+                            [filter]="true" [(destination)]="attributeSelected" height="350px" [format]="format" [draggable]="true"
+                            [disabled]="false"></dual-list>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+
+
+                <button type="button" class="btn btn-primary" type="submit" (click)="onSubmit()" [disabled]="addForm.invalid">
+                    <span *ngIf="submitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+                    <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+                    <span *ngIf="!submitLoader" class="btn-text">
+                        <i class="feather icon-save"> </i>&nbsp;
+                        <span *ngIf="!isUpdate">Save</span>
+                        <span *ngIf="isUpdate">Update</span>
+                    </span>
+                </button>
+
+            </form>
+        </app-card>
+    </div>
+</div>
+
+
+<br>
+<br>
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <h5 class="mt-4" style="margin-top: 50px;">View Joint Attributes</h5>
+        <hr>
+        <app-card cardClass="card-datatable" [options]="false">
+            <div class="dt-responsive table-responsive">
+                <table id="dataTable" datatable [dtOptions]="dtOptions" class="table table-sm" style="width: 100%;">
+                </table>
+            </div>
+        </app-card>
+    </div>
+</div>

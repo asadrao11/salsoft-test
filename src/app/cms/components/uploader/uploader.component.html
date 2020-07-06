@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h4 class="modal-title">Uploading {{type}}</h4>
+</div>
+
+<div class="modal-body">
+
+    <div class="mb-4">
+        <ngb-progressbar [showValue]="true" height="30px" [value]="progressBarValue" [striped]="true" [animated]="true">
+        </ngb-progressbar>
+    </div>
+
+  
+    <h6 class="text-center" style="color: green;">Success logs</h6>
+
+    <span class="bg-light d-inline-block mr-2 border border-success rounded" style="width: 100%;" placement="auto">
+    <div id="data" style="overflow:scroll; overflow-x:hidden; overflow-y:visible; height: 150px;">
+      <ul>
+        <li *ngFor="let log of successLogs">
+          <p style="font-size: 10px; color: gray; margin-bottom: 2px;"> {{ log }} </p>
+        </li>
+      </ul>
+    </div>
+  </span>
+
+    <br>
+    <h6 class="text-center" style="color: red;">Error logs</h6>
+
+    <span class="bg-light d-inline-block mr-2 border border-danger rounded" style="width: 100%;" placement="auto">
+    <div id="data" style="overflow:scroll; overflow-x:hidden; overflow-y:visible; height:150px;">
+      <ul>
+        <li *ngFor="let log of errorLogs">
+          <p style="font-size: 10px; color: red; margin-bottom: 2px;"> {{ log }} </p>
+        </li>
+      </ul>
+    </div>
+  </span>
+
+  <div *ngIf="uploadCompleted" class="text-center" style="margin-top: 10px;">
+    <img src="./../../../../assets/images/upload_complete.png" style="height: 2%; width: 2%;"><br>
+    <span style="
+    font-size: 16px;
+    background: -webkit-linear-gradient(#4ADD86, #30AF62);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;"
+    ><b>Upload Completed</b></span>
+  </div>
+
+
+    
+
+</div>
+
+<div class="modal-footer">
+  <a #forModalClose (click)="activeModal.close('Close click')" [hidden]="true"></a>
+    <button type="button" 
+          class="btn btn-outline-dark" 
+          [disabled]="!uploadCompleted" 
+          (click)="closeUploadModal()"
+          ngbAutofocus
+          >Close</button>
+</div>

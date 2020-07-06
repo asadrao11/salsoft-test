@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <app-card cardTitle="Update Prices" [options]="false">
+            <hr>
+            <form action="javascript:" [formGroup]="updateForm">
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label for="inputCrossReference">Cross Reference (Item Number)</label>
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Cross Reference" [multiple]="true"
+                                formControlName="cross_reference_id" [items]="crossReferenceDropDown" bindValue="id"
+                                bindLabel="item_number" id="inputCrossReference"> </ng-select>
+                            <div ngxErrors="cross_reference_id" class="error">
+                                <div ngxError="required" when="touched">
+                                    Field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label for="inputWebsite">Website</label>
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Website" formControlName="website_id"
+                                [items]="websiteDropDown" bindValue="id" bindLabel="name" id="inputWebsite">
+                            </ng-select>
+                            <div ngxErrors="website_id" class="error">
+                                <div ngxError="required" when="touched">
+                                    Field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" [disabled]="updateForm.invalid" type="submit"
+                    (click)="onProcessClick()"><i class="feather icon-refresh-cw"> </i> &nbsp;Process</button>
+            </form>
+            <div *ngIf="dataExtracted" class="text-center">
+                <br>
+                <hr>
+                <button type="button" class="btn btn-warning"  style="width: 40%;" (click)="onUpdateClick()">
+                    <span *ngIf="submitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+                    <span *ngIf="submitLoader" class="load-text">&nbsp; Loading...</span>
+                    <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-check-circle"> </i>&nbsp;&nbsp;Update Prices</span>
+                </button>
+                <hr>
+            </div>
+        </app-card>
+
+
+        <app-card *ngIf="dataExtracted" cardTitle="Calculated Amount" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Cross Ref ID</th>
+                            <th>Item No</th>
+                            <th>Website</th>
+                            <th>Brand</th>
+                            <th>Ratio</th>
+                            <th class="text-center">Calculated Amount</th>
+                            <th class="text-center">Products</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of extracted_CrossRefDetails">
+                            <td>{{data.cross_reference_id}}</td>
+                            <td>{{data.crossReference.item_number}}</td>
+                            <td>{{data.website.name}}</td>
+                            <td>{{data.brand.name}}</td>
+                            <td>{{data.ratio}}</td>
+                            <td class="text-center"><span
+                                    class="badge m-r-5 badge-pill badge-info">{{data.calculated_amount}}</span></td>
+                            <td>
+                                <span *ngFor="let product of data.products">
+                                    <span class="badge m-r-5 badge-pill badge-primary">{{ product.name }}</span><br>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <app-card cardTitle="New Product Information" [options]="false" *ngIf="editForm">
+            <hr>
+            <form action="javascript:" [formGroup]="editForm">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" class="form-control" formControlName="name" id="inputName"
+                                placeholder="Product Name">
+                        </div>
+                        <div ngxErrors="name" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="inputState">Category</label>
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Category"
+                                formControlName="category_id" [items]="categoryDropDown" bindValue="id" bindLabel="name"
+                                id="inputState"> </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="inputBrand">Brand</label>
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Brand" formControlName="brand_id"
+                                [items]="brandDropDown" bindValue="id" bindLabel="name" id="inputBrand"> </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="inputName">SKU</label>
+                            <input type="text" class="form-control" formControlName="SKU" id="SKU" placeholder="SKU">
+                        </div>
+                        <div ngxErrors="SKU" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="inputName">Description</label>
+                            <input type="text" class="form-control" formControlName="description" id="description"
+                                placeholder="Description">
+                        </div>
+                        <div ngxErrors="description" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <div class="switch switch-primary d-inline m-r-10">
+                                <input type="checkbox" formControlName="active" id="gridCheck">
+                                <label class="cr" for="gridCheck"></label>
+                            </div>
+                            <label type="button" for="gridCheck">Active</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" [disabled]="editForm.invalid" type="submit"
+                    (click)="onSubmit()"><i class="feather icon-save"> </i> &nbsp;Save</button>
+            </form>
+        </app-card>
+        
+    </div>
+</div>

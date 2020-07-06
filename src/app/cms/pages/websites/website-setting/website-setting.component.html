@@ -1,0 +1,250 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <br>
+    <div class="text-center" *ngIf="selectedWebsite">
+      <h4><span class="badge badge-primary" ngbTooltip="Selected Website">{{ selectedWebsite.name }}</span></h4>
+    </div>
+    <br>
+
+
+    <app-card [hidHeader]="true" cardClass="tab-card">
+      <h5 class="mb-3">Website Settings</h5>
+      <br>
+      <ngb-tabset>
+
+        <ngb-tab title="Menus">
+          <ng-template ngbTabContent>
+            <br>
+            <h6 class="mb-3">Header Menu</h6>
+            <hr>
+            <div style="margin-top: 20px; margin-bottom: 25px;">
+              <button class="btn btn-icon btn-secondary" ngbTooltip="Add New Menu" (click)="addNewHeaderMenu()">
+                <i class="icon feather icon-plus-circle"></i>&nbsp;&nbsp; Add New Menu</button>
+            </div>
+
+            <!-- Main Menu -->
+            <div *ngFor="let menu of headerMenuList; index as i;">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Menu Title</label>
+                  <!-- <input type="text" class="form-control" placeholder="Menu Name"
+                    [(ngModel)]="menu.title"> -->
+                    <ng-select [ngClass]="'ng-select'"
+                         placeholder="Select Category"
+                         [items]="headerAssignedCategoryList"
+                         bindValue="name"
+                         bindLabel="name"
+                         [(ngModel)]="menu.title">
+                  </ng-select>
+
+                </div>
+                <div class="form-group col-md-5">
+                  <label>URL</label>
+                  <input readonly type="text" class="form-control" placeholder="Menu URL" [(ngModel)]="menu.url">
+                </div>
+
+
+                <div class="form-group col-md-1">
+                  <div style="margin-top: 28px;">
+                    <button class="btn btn-icon btn-primary" ngbTooltip="Add Child" (click)="addNewChildHeaderMenu(i)">
+                      <i class="icon feather icon-plus"></i></button>&nbsp;
+                    <button class="btn btn-icon btn-danger" ngbTooltip="Delete" (click)="deleteHeaderMenu(i)">
+                      <i class="icon feather icon-trash-2"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- First Child Menu -->
+              <div *ngFor="let childMenu of menu.childList; index as j;">
+                <div class="form-row">
+                  <div class="form-group col-md-1"></div>
+                  <div class="form-group col-md-5">
+                    <label>Menu Title</label>
+                    <input type="text" class="form-control" placeholder="Menu Name"
+                      [(ngModel)]="childMenu.title">
+
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>URL</label>
+                    <input type="text" class="form-control" placeholder="Menu URL"
+                      [(ngModel)]="childMenu.url">
+                  </div>
+
+
+                  <div class="form-group col-md-1">
+                    <div style="margin-top: 28px;">
+                      <button class="btn btn-icon btn-primary" ngbTooltip="Add Child" (click)="addNewChildHeaderMenu(i,j)">
+                        <i class="icon feather icon-plus"></i></button>&nbsp;
+                      <button class="btn btn-icon btn-danger" ngbTooltip="Delete" (click)="deleteHeaderMenu(i,j)">
+                        <i class="icon feather icon-trash-2"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Second Child Menu -->
+                <div *ngFor="let seondChildMenu of childMenu.childList; index as k;">
+                  <div class="form-row">
+                    <div class="form-group col-md-2"></div>
+                    <div class="form-group col-md-4">
+                      <label>Menu Title</label>
+                      <input type="text" class="form-control" placeholder="Menu Name"
+                        [(ngModel)]="seondChildMenu.title">
+
+                    </div>
+                    <div class="form-group col-md-5">
+                      <label>URL</label>
+                      <input type="text" class="form-control" placeholder="Menu URL"
+                        [(ngModel)]="seondChildMenu.url">
+                    </div>
+
+
+                    <div class="form-group col-md-1">
+                      <div style="margin-top: 28px;">
+                        <button class="btn btn-icon btn-danger" ngbTooltip="Delete" (click)="deleteHeaderMenu(i,j,k)">
+                          <i class="icon feather icon-trash-2"></i></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Second Menu End -->
+                </div>
+                <!-- First Menu End -->
+              </div>
+              <!-- Main Menu End -->
+            </div>
+
+            <br>
+            <button type="button" class="btn btn-primary" type="submit" (click)="onSubmitHeaderMenu()">
+              <span *ngIf="submitLoader" class="spinner-border spinner-border-sm" role="status"></span>
+              <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+              <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-save"> </i> &nbsp;&nbsp; Save</span>
+            </button>
+
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Homepage">
+          <ng-template ngbTabContent>
+            <br>
+            <h6 class="mb-3">Featured Categories</h6>
+            <hr>
+
+            <div style="margin-top: 20px; margin-bottom: 25px;">
+              <button class="btn btn-icon btn-secondary" ngbTooltip="Add New Category" (click)="addNewCategoryRow()">
+                <i class="icon feather icon-plus-circle"></i>&nbsp;&nbsp; Add New Category</button>
+            </div>
+
+            <div *ngFor="let cat of featuredCategoriesList; index as i;">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Featured Category</label>
+
+                  <ng-select [ngClass]="'ng-select'"
+                         placeholder="Select Category"
+                         [items]="categoryDropDown"
+                         bindValue="id"
+                         bindLabel="name"
+                         [(ngModel)]="cat.category_id">
+                  </ng-select>
+
+                </div>
+                <div class="form-group col-md-5">
+                  <label>Sub-categories</label>
+                  <ng-select [ngClass]="'ng-select'"
+                         placeholder="Select Subcategories"
+                         [items]="categoryDropDown"
+                         [multiple]="true"
+                         bindValue="id"
+                         bindLabel="name"
+                         [(ngModel)]="cat.sub_category_ids">
+                  </ng-select>
+                </div>
+
+
+                <div class="form-group col-md-1">
+                  <div style="margin-top: 28px;">
+                    <button class="btn btn-icon btn-danger" ngbTooltip="Delete" (click)="deleteCategoryRow(i)">
+                      <i class="icon feather icon-trash-2"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <button type="button" class="btn btn-primary" type="submit" (click)="onSubmitFeaturedCategories()">
+              <span *ngIf="submitLoader" class="spinner-border spinner-border-sm" role="status"></span>
+              <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+              <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-save"> </i> &nbsp;&nbsp; Save</span>
+            </button>
+
+
+          </ng-template>
+        </ngb-tab>
+
+
+
+        <ngb-tab title="Banners ">
+          <ng-template ngbTabContent>
+            <br>
+            <h6 class="mb-3">Add Banner</h6>
+            <hr>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Title</label>
+                <input type="text" class="form-control" placeholder="Title" [(ngModel)]="selectedBannerTitle">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Banner Image</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="bannerInput($event)">
+                  <label class="custom-file-label" for="inputGroupFile04">{{ selectedBannerName }}</label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <button type="button" class="btn btn-primary" type="submit" (click)="onSubmitBannerImages()">
+                  <span *ngIf="submitLoader" class="spinner-border spinner-border-sm" role="status"></span>
+                  <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+                  <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-save"></i> &nbsp;&nbsp; Save Banner</span>
+                </button>
+              </div>
+            </div>
+
+            <br>
+            <h6 class="mb-3">View Banners</h6>
+            <hr>
+            <br>
+
+            <div class="form-row">
+              <ng-container *ngFor="let img of bannerImagesList; index as i">
+                  <div class="form-group col-md-4 text-center">
+                      <div class="form-group text-center">
+                        <span class="bg-light d-inline-block mr-2 border border rounded text-center"
+                          style="width: 60%; height: 80%;" placement="auto">
+                          <img id="image_box" [src]="img.url" style="width: 95%; height: 95%;" />
+                        </span>
+                        <div class="text-center" style="margin-top: 10px;"><b>{{img.title}}</b></div>
+                        <div class="text-center" style="margin-top: 5px;"><b>{{img.image}}</b></div>
+                        <div class="text-center" style="margin-top: 10px;">
+                          <button type="button" class="btn btn-danger" type="submit" ngbTooltip="Delete {{img.title}}" (click)="onDeleteBannerImage(i)">
+                            <i class="feather icon-trash-2"></i>
+                          </button>
+                        </div>
+                      </div>
+                  </div>
+              </ng-container>
+          </div>
+
+
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
+    </app-card>
+
+  </div>
+</div>

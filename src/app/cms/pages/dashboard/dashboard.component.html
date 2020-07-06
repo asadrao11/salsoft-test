@@ -1,0 +1,261 @@
+<div class="row text-center" *ngIf="!dashboardData">
+    <div class="col-md-12">
+        <div class="spinner-border" style="color: #fd7e14; width: 3rem; height: 3rem; margin-top: 20%;" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <br>
+        <span style="color: #fd7e14; font-weight: bold; margin-top: 10px;">Please wait...</span>
+    </div>
+</div>
+
+<div class="row" *ngIf="dashboardData">
+
+    <!-- Total Cards -->
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="prod-p-card bg-c-red">
+            <div class="row align-items-center m-b-0">
+                <div class="col">
+                    <h6 class="m-b-5 text-white">Total Products</h6>
+                    <h3 class="m-b-0 text-white">{{dashboardData.total_products}}</h3>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-box-open text-white"></i>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="prod-p-card bg-c-blue">
+            <div class="row align-items-center m-b-0">
+                <div class="col">
+                    <h6 class="m-b-5 text-white">Total Brands</h6>
+                    <h3 class="m-b-0 text-white">{{dashboardData.total_brands}}</h3>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-tags text-white"></i>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="prod-p-card bg-c-green">
+            <div class="row align-items-center m-b-0">
+                <div class="col">
+                    <h6 class="m-b-5 text-white">Total Categories</h6>
+                    <h3 class="m-b-0 text-white">{{dashboardData.total_categories}}</h3>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-boxes text-white"></i>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="prod-p-card bg-c-yellow">
+            <div class="row align-items-center m-b-0">
+                <div class="col">
+                    <h6 class="m-b-5 text-white">Total Websites</h6>
+                    <h3 class="m-b-0 text-white">{{dashboardData.total_websites}}</h3>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-globe text-white"></i>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <!-- End Total Cards -->
+
+
+    <!-- Todays Count Starts -->
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="ticket-card">
+            <p class="m-b-25 badge-light-danger lbl-card"><i class="fas fa-folder-open m-r-5"></i> Today's Products</p>
+            <div class="text-center">
+                <h2 class="m-b-0 d-inline-block text-c-red">{{dashboardData.today_products}}</h2>
+                <p class="m-b-0 m-t-10">{{ currentDate | date: 'longDate' }}</p>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="ticket-card">
+            <p class="m-b-25 badge-light-primary lbl-card"><i class="fas fa-file-archive m-r-5"></i> Today's Brands</p>
+            <div class="text-center">
+                <h2 class="m-b-0 d-inline-block text-c-blue">{{dashboardData.today_brands}}</h2>
+                <p class="m-b-0 m-t-10">{{ currentDate | date: 'longDate' }}</p>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="ticket-card">
+            <p class="m-b-25 badge-light-success lbl-card"><i class="fas fa-users m-r-5"></i> Today's Categories</p>
+            <div class="text-center">
+                <h2 class="m-b-0 d-inline-block text-c-green">{{dashboardData.today_categories}}</h2>
+                <p class="m-b-0 m-t-10">{{ currentDate | date: 'longDate' }}</p>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-card [hidHeader]="true" cardClass="ticket-card">
+            <p class="m-b-25 badge-light-warning lbl-card"><i class="fas fa-database m-r-5"></i> Today's Websites</p>
+            <div class="text-center">
+                <h2 class="m-b-0 d-inline-block text-c-yellow">{{dashboardData.today_websites}}</h2>
+                <p class="m-b-0 m-t-10">{{ currentDate | date: 'longDate' }}</p>
+            </div>
+        </app-card>
+    </div>
+    <!-- Todays Count End -->
+
+
+    <!-- Wide cards start  -->
+    <div class="col-xl-4 col-md-12">
+        <app-card [hidHeader]="true" cardClass="proj-t-card">
+            <div class="row align-items-center m-b-30">
+                <div class="col-auto">
+                    <i class="fas fa-layer-group text-c-red f-30"></i>
+                </div>
+                <div class="col p-l-0">
+                    <h5 class="m-b-5 text-c-red">Attributes</h5>
+                </div>
+            </div>
+            <div class="row align-items-center text-center">
+                <div class="col">
+                    <h6 class="m-b-0">{{dashboardData.total_attributes}}</h6>
+                </div>
+                <div class="col"><i class="fas fa-exchange-alt text-c-red f-18"></i></div>
+                <div class="col">
+                    <h6 class="m-b-0">{{dashboardData.today_attributes}}</h6>
+                </div>
+            </div>
+            <h6 class="pt-badge badge-light-danger"></h6>
+        </app-card>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <app-card [hidHeader]="true" cardClass="proj-t-card">
+            <div class="row align-items-center m-b-30">
+                <div class="col-auto">
+                    <i class="fas fa-paper-plane text-c-green f-30"></i>
+                </div>
+                <div class="col p-l-0">
+                    <h5 class="m-b-5 text-c-green">Attribute Values</h5>
+                </div>
+            </div>
+            <div class="row align-items-center text-center">
+                <div class="col">
+                    <h6 class="m-b-0">{{dashboardData.total_attribute_values}}</h6>
+                </div>
+                <div class="col"><i class="fas fa-exchange-alt text-c-green f-18"></i></div>
+                <div class="col">
+                    <h6 class="m-b-0">{{dashboardData.today_attribute_values}}</h6>
+                </div>
+            </div>
+            <h6 class="pt-badge badge-light-success"></h6>
+        </app-card>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <app-card [hidHeader]="true" cardClass="proj-t-card">
+            <div class="row align-items-center m-b-30">
+                <div class="col-auto">
+                    <i class="feather icon-triangle text-c-yellow f-30"></i>
+                </div>
+                <div class="col p-l-0">
+                    <h5 class="m-b-5 text-c-yellow">Attribute Units</h5>
+                </div>
+            </div>
+            <div class="row align-items-center text-center">
+                <div class="col">
+                    <h6 class="m-b-0">{{dashboardData.total_attribute_units}}</h6>
+                </div>
+                <div class="col"><i class="fas fa-exchange-alt text-c-yellow f-18"></i></div>
+                <div class="col">
+                    <h6 class="m-b-0">{{dashboardData.today_attribute_units}}</h6>
+                </div>
+            </div>
+            <h6 class="pt-badge badge-light-warning"></h6>
+        </app-card>
+    </div>
+    <!-- Wide cards end  -->
+
+
+
+
+
+
+
+    <!-- Category Products Section Start -->
+    <!-- <div class="col-lg-6">
+        <app-card cardTitle="Category Products" [options]="false">
+            <div class="col">
+                <app-apex-chart chartID="chart-apex-brand" [chartConfig]="categoriesChartConfig"></app-apex-chart>
+            </div>
+        </app-card>
+    </div> -->
+    <!-- Category Products Section End -->
+
+
+
+    <!-- Category Products Section Start -->
+
+    <!-- <div class="col-xl-6">
+        <app-card cardTitle="Brands Products" [options]="false">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <app-apex-chart chartID="chart-apex-category" [chartConfig]="brandsChartConfig"></app-apex-chart>
+                </div>
+            </div>
+        </app-card>
+    </div> -->
+
+    <!-- Category Products Section End -->
+
+
+
+    <!-- Last Row Start -->
+    <div class="col-md-6 col-xl-3">
+        <app-card [hidHeader]="true" [isCardFooter]="true" footerClass="p-0 border border-0"
+            cardClass="bg-c-blue overflow-hidden amount-card" blockClass="pb-1">
+            <i class="feather icon-shopping-cart"></i>
+            <h4 class="text-white">4600</h4>
+            <div class="app-card-footer">
+                <app-apex-chart chartID="chart-template" [chartConfig]="templateChartData">
+                </app-apex-chart>
+                <p class="text-dark pb-1">Total Customers</p>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <app-card [hidHeader]="true" [isCardFooter]="true" footerClass="p-0 border border-0"
+            cardClass="bg-c-green overflow-hidden amount-card" blockClass="pb-1">
+            <i class="feather icon-user-check"></i>
+            <h4 class="text-white">387</h4>
+            <div class="app-card-footer">
+                <app-apex-chart chartID="chart-apex-amount-2" [chartConfig]="templateChartData"></app-apex-chart>
+                <p class="text-dark">Today Customers</p>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <app-card [hidHeader]="true" [isCardFooter]="true" footerClass="p-0 border border-0"
+            cardClass="bg-c-yellow overflow-hidden amount-card" blockClass="pb-1">
+            <i class="feather icon-briefcase"></i>
+            <h4 class="text-white">8350</h4>
+            <div class="app-card-footer">
+                <app-apex-chart chartID="chart-apex-amount-3" [chartConfig]="templateChartData"></app-apex-chart>
+                <p class="text-dark">Today Orders</p>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <app-card [hidHeader]="true" [isCardFooter]="true" footerClass="p-0 border border-0"
+            cardClass="bg-c-red overflow-hidden amount-card" blockClass="pb-1">
+            <i class="feather icon-check"></i>
+            <h4 class="text-white">123</h4>
+            <div class="app-card-footer">
+                <app-apex-chart chartID="chart-apex-amount-4" [chartConfig]="templateChartData"></app-apex-chart>
+                <p class="text-dark">Todays Completed Orders</p>
+            </div>
+        </app-card>
+    </div>
+    <!-- Last Row End -->
+
+
+</div>

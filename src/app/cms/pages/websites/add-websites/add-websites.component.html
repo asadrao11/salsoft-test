@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <app-card cardTitle="New Website Information" [options]="false">
+      <hr>
+      <form action="javascript:" [formGroup]="addForm">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <div class="form-group">
+              <label for="inputName">Name</label>
+              <input type="text" class="form-control" formControlName="name" id="inputName" placeholder="Website Name">
+            </div>
+            <div ngxErrors="name" class="error">
+              <div ngxError="required" when="touched">
+                Field is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <div class="form-group">
+              <div class="switch switch-primary d-inline m-r-10">
+                <input type="checkbox" formControlName="active" id="gridCheck">
+                <label class="cr" for="gridCheck"></label>
+              </div>
+              <label type="button" for="gridCheck">Active</label>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" [disabled]="addForm.invalid" type="submit" (click)="onSubmit()"><i
+            class="feather icon-save"> </i> &nbsp;Save</button>
+
+      </form>
+
+    </app-card>
+
+
+
+
+    <!-- Bulk Uploading Component -->
+
+    <app-card cardTitle="Bulk Upload Websites Information" [options]="false">
+      <a href="../../../../../assets/Uploading-Templates/Websites Template.xlsx" type="button" class="btn btn-icon btn-secondary" ngbTooltip="Download Template" style="margin-left: 95%; margin-bottom: 20px;" ><i class="feather icon-download"></i></a>
+      <div class="input-group cust-file-button">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="handleFileInput($event)">
+          <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" (click)="fileUpload()"
+            [disabled]="uploadDataReady">Load Data</button>
+        </div>
+      </div>
+
+      <div *ngIf="uploadDataReady" class="text-center">
+        <hr>
+        <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+            class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+          Uploading</button>
+      </div>
+    </app-card>
+
+
+    <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+      <div class="table-responsive">
+        <table datatable class="table table-hover m-b-0">
+          <thead>
+            <tr>
+              <th>Website Name</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of dataForUploading">
+              <td>{{data.name}}</td>
+              <td>
+                <span *ngIf="data.active" class="badge badge-light-primary">Active</span>
+                <span *ngIf="!data.active" class="badge badge-light-danger">Inactive</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+
+
+
+
+
+
+
+  </div>
+</div>

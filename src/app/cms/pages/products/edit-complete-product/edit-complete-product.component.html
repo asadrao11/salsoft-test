@@ -1,0 +1,533 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <!-- <app-card cardTitle="Edit Product Detail Information" [options]="false" *ngIf="!productSelected">
+            <hr>
+            <form action="javascript:" [formGroup]="productForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="form-group">
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Product" formControlName="product"
+                                [items]="productList" bindLabel="name" (change)="loadProductByID()" bindValue="id"
+                                [loading]="productListLoading" loadingText="Loading...">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </app-card> -->
+
+
+        <div class="row text-center" *ngIf="(productSelected && !dataLoaded)">
+            <div class="col-md-12">
+                <div class="spinner-border" style=" color: #fd7e14; width: 3rem; height: 3rem; margin-top: 20%;" role="status">
+                    <span class="sr-only"></span>
+                </div>
+                <br>
+                <span style="color: #fd7e14; font-weight: bold; margin-top: 10px;">Please wait...</span>
+            </div>
+        </div>
+
+
+        <form action="javascript:" [formGroup]="productDetailsForm" *ngIf="dataLoaded">
+            <app-card cardTitle="Basic Product Details" [options]="false">
+                <div class="text-center" *ngIf="globalSelectedAttributesGroup">
+                    <h5><span class="badge badge-primary"
+                            ngbTooltip="Assigned Attribute Group">{{ globalSelectedAttributesGroup.name }}</span></h5>
+                </div>
+                <hr>
+                <ng-container>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <div class="form-group">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" formControlName="name" id="inputName"
+                                    placeholder="Product Name">
+                            </div>
+                            <div ngxErrors="name" class="error">
+                                <div ngxError="required" when="touched">
+                                    Field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <div class="form-group">
+                                <label for="inputName">SKU</label>
+                                <input type="text" class="form-control" formControlName="SKU" id="SKU"
+                                    placeholder="SKU">
+                            </div>
+                            <div ngxErrors="SKU" class="error">
+                                <div ngxError="required" when="touched">
+                                    Field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label for="inputState">Category</label>
+                                <ng-select [ngClass]="'ng-select'" placeholder="Select Category"
+                                    formControlName="category_id" [items]="categoryDropDown" bindValue="id"
+                                    bindLabel="name" id="inputState"></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label for="inputBrand">Brand</label>
+                                <ng-select [ngClass]="'ng-select'" placeholder="Select Brand" formControlName="brand_id"
+                                    [items]="brandDropDown" bindValue="id" bindLabel="name" id="inputBrand"></ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <div class="form-group">
+                                <label for="inputName">Description</label>
+                                <app-tinymce #tinymce='tinymce' formControlName="description" id="description">
+                                </app-tinymce>
+                            </div>
+                            <div ngxErrors="description" class="error">
+                                <div ngxError="required" when="touched">
+                                    Field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <div class="form-group">
+                                <h6 class="mt-4">Accessories</h6>
+                                <ng-select [ngClass]="'ng-select'" placeholder="Select Accessories"
+                                    formControlName="accessories" [items]="productAccessoriesDropDown" [multiple]="true"
+                                    bindValue="id" bindLabel="name" [(ngModel)]="productAccessoriesSelected">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <div class="form-group">
+                                <div class="switch switch-primary d-inline m-r-10">
+                                    <input type="checkbox" formControlName="active" id="gridCheck">
+                                    <label class="cr" for="gridCheck"></label>
+                                </div>
+                                <label type="button" for="gridCheck">Active</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" [disabled]="productDetailsForm.invalid" type="submit"
+                        (click)="onSubmit()">
+                        <span *ngIf="submitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+                        <span *ngIf="submitLoader" class="load-text">&nbsp; Loading...</span>
+                        <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-save">
+                            </i>&nbsp;&nbsp;Save</span>
+                    </button>
+
+                </ng-container>
+            </app-card>
+
+
+            <!-- Images Section -->
+            <app-card cardTitle="Product Images" [options]="false" *ngIf="dataLoaded">
+                <ng-container>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <h6 class="mt-4">Assign Images</h6>
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Images" [items]="imagesDropDownList"
+                                [multiple]="true" [ngModelOptions]="{standalone: true}" bindValue="name"
+                                bindLabel="name" [(ngModel)]="imagesSelected" (change)="loadImageURL($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <ng-container *ngFor="let img of loadedImages">
+                            <div class="form-group col-md-4 text-center">
+                                <div class="form-group text-center">
+                                  <span class="bg-light d-inline-block mr-2 border border rounded text-center"
+                                    style="width: 60%; height: 80%;" placement="auto">
+                                    <img id="image_box" [src]="img.url" style="width: 95%; height: 95%;" />
+                                  </span>
+                                  <div class="text-center" style="margin-top: 10px;"><b>{{img.name}}</b></div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+
+                    <button type="button" class="btn btn-primary" type="submit"  (click)="saveImageClick()">
+                        <span *ngIf="submitLoader" class="spinner-border spinner-border-sm" role="status"></span>
+                        <span *ngIf="submitLoader" class="load-text">&nbsp; Loading </span>
+                        <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-chevrons-up">
+                            </i>&nbsp;&nbsp;Save Images</span>
+                    </button>
+
+                </ng-container>
+            </app-card>
+
+
+            <!-- Attribute Section -->
+            <div class="col-xl-12" *ngIf="dataLoaded">
+                <h5 class="mt-4">Product Attribute Details</h5>
+                <hr>
+
+                <!-- Normal Attributes Starts -->
+                <div class="row" *ngIf="dataLoaded">
+                    <div class="col-sm-4" *ngFor="let attributes of t.controls; index as i">
+                        <app-card [hidHeader]="true">
+                            <div [formGroup]="attributes">
+                                <h5 class="card-title">{{ attributeList[i].title }}</h5>
+                                <label class="card-text">Value</label>
+
+                                <!-- DROPDOWN -->
+                                <div *ngIf="(attributeList[i].type == 'DropDown')">
+                                    <ng-select placeholder="Select Value" [items]="attributeList[i].values"
+                                        bindValue="value" bindLabel="value" formControlName="value"></ng-select>
+                                </div>
+
+                                <!-- MULTI SELECT DROPDOWN -->
+                                <div *ngIf="(attributeList[i].type == 'Multi-Select-DropDown')">
+                                    <ng-select placeholder="Select Value" [items]="attributeList[i].values"
+                                        bindValue="id" [multiple]="true" bindLabel="value" formControlName="value"
+                                        [(ngModel)]="attributeList[i].selected"></ng-select>
+                                </div>
+
+                                <!-- TEXTBOX -->
+                                <div *ngIf="(attributeList[i].type == 'TextBox')">
+                                    <input type="text" placeholder="Enter Value" class="form-control"
+                                        formControlName="value">
+                                </div>
+
+                                <!-- RICH-TEXTBOX -->
+                                <div *ngIf="(attributeList[i].type == 'RichTextBox')">
+                                    <textarea [froalaEditor] formControlName="value" >{{ attributeList[i].pivot.value }}</textarea>
+                                    <!-- <dx-html-editor formControlName="value" [(value)]="attributeList[i].pivot.value">
+                                        <dxo-toolbar>
+                                            <dxi-item formatName="bold"></dxi-item>
+                                            <dxi-item formatName="italic"></dxi-item>
+                                            <dxi-item formatName="strike"></dxi-item>
+                                            <dxi-item formatName="underline"></dxi-item>
+                                            <dxi-item formatName="orderedList"></dxi-item>
+                                            <dxi-item formatName="bulletList"></dxi-item>
+                                            <dxi-item formatName="separator"></dxi-item>
+                                            <dxi-item formatName="link"></dxi-item>
+                                            <dxi-item formatName="image"></dxi-item>
+                                        </dxo-toolbar>
+                                    </dx-html-editor> -->
+                                </div>
+
+                                <!-- RADIO -->
+                                <div *ngIf="(attributeList[i].type == 'Radio')">
+                                    <div *ngIf="(attributeList[i].values.length == 0)">
+                                        <app-alert type="danger" dismiss="true">Radio box doesn't have any value.
+                                        </app-alert>
+                                    </div>
+                                    <div *ngFor="let val of attributeList[i].values"
+                                        class="radio radio-primary d-inline">
+                                        <input type="radio" id="{{ val.value }}" value="{{ val.value }}"
+                                            formControlName="value">
+                                        <label for="{{ val.value }}" class="cr">{{ val.value }}</label>
+                                        <br>
+                                    </div>
+                                </div>
+
+                                <!-- CHECKBOX -->
+                                <div *ngIf="(attributeList[i].type == 'CheckBox')">
+                                    <div *ngIf="(attributeList[i].values.length == 0)">
+                                        <app-alert type="danger" dismiss="true">Check box doesn't have any value.
+                                        </app-alert>
+                                    </div>
+                                    <div *ngFor="let val of attributeList[i].values"
+                                        class="checkbox checkbox-primary d-inline">
+                                        <input type="checkbox" id="{{ val.value }}" formControlName="value">
+                                        <label for="{{ val.value }}" class="cr">{{ val.value }}</label>
+                                        <br>
+                                    </div>
+                                </div>
+
+                                <!-- UNITS -->
+                                <div *ngIf="(attributeList[i].units.length > 0)">
+                                    <br>
+                                    <label class="card-text">Unit</label>
+                                    <ng-select placeholder="Select Unit" [items]="attributeList[i].units" bindValue="id"
+                                        bindLabel="title" formControlName="attribute_unit_id"></ng-select>
+                                </div>
+
+                                <br>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-icon btn-primary"
+                                        ngbTooltip="{{ 'Update ' + attributeList[i].title }}"
+                                        (click)="onUpdate(i,attributeList[i].id)"><i
+                                            class="feather icon-refresh-cw"></i></button>
+                                    &nbsp;&nbsp;
+                                    <button type="button" class="btn btn-icon btn-danger"
+                                        ngbTooltip="{{ 'Deassign ' + attributeList[i].title }}"
+                                        (click)="onDeassign(attributeList[i].id)"><i
+                                            class="feather icon-slash"></i></button>
+                                </div>
+                            </div>
+                        </app-card>
+                    </div>
+                </div>
+                <!-- Normal Attributes Ends -->
+
+
+                <br>
+                <hr>
+
+
+                <!-- Joint Attributes Starts -->
+                <div class="row" *ngIf="dataLoaded">
+                    <div class="col-sm-12" *ngFor="let jointAttribute of JOINT_ATTRIBUTE_LIST; index as i">
+
+                        <app-card [hidHeader]="true">
+                            <span class="bg-light d-inline-block mr-2 border"
+                                style="height: 100%; width: 100%; padding: 25px;" placement="auto">
+                                <div class="form-row">
+                                    <h5><span class="badge badge-primary">{{ jointAttribute.name }}</span></h5>
+                                </div>
+
+                                <div class="form-row">
+                                    <a href="javascript:" (click)="onIncrementClick(jointAttribute.attributes, i)"
+                                        class="badge m-r-5 badge-pill badge-light-secondary"
+                                        style="font-size: 15px; margin-top: 8px; margin-bottom: 15px;">+</a>
+                                </div>
+
+                                <ng-container>
+                                    <div class="form-row" *ngFor="let attributeArray of jointAttribute.attributes">
+                                        <div *ngFor="let attribute of attributeArray; index as j">
+
+                                            <ng-container *ngIf="attribute.type == 'TextBox'">
+                                                    <input 
+                                                        type="text"
+                                                        class="form-control"
+                                                        style="width: 225px; margin-right: 10px; margin-bottom: 7px;"
+                                                        placeholder="{{attribute.title}} Value"
+                                                        ngbTooltip="{{attribute.title}} Value"
+                                                        [(ngModel)]="attribute.SELECTED_VALUE"
+                                                        [ngModelOptions]="{standalone: true}">
+
+                                                    <ng-select
+                                                        *ngIf="attribute.units.length > 0"
+                                                        style="width: 225px; margin-right: 10px; margin-bottom: 7px;"
+                                                        placeholder="{{attribute.title}} Unit"
+                                                        ngbTooltip="{{attribute.title}} Unit" 
+                                                        [items]="attribute.units"
+                                                        bindValue="id" 
+                                                        bindLabel="title" 
+                                                        [(ngModel)]="attribute.SELECTED_UNIT_ID"
+                                                        [ngModelOptions]="{standalone: true}"></ng-select>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="attribute.type == 'DropDown'">
+                                                    <ng-select
+                                                        style="width: 225px; margin-right: 10px; margin-bottom: 7px;"
+                                                        placeholder="{{attribute.title}} Value"
+                                                        ngbTooltip="{{attribute.title}} Value" 
+                                                        [items]="attribute.values"
+                                                        bindValue="value" 
+                                                        bindLabel="value" 
+                                                        [(ngModel)]="attribute.SELECTED_VALUE"
+                                                        [ngModelOptions]="{standalone: true}"></ng-select>
+                                                    
+                                                    <ng-select
+                                                        *ngIf="attribute.units.length > 0"
+                                                        style="width: 225px; margin-right: 10px; margin-bottom: 7px;"
+                                                        placeholder="{{attribute.title}} Unit"
+                                                        ngbTooltip="{{attribute.title}} Unit"
+                                                        [items]="attribute.units"
+                                                        bindValue="id" 
+                                                        bindLabel="title" 
+                                                        [(ngModel)]="attribute.SELECTED_UNIT_ID"
+                                                        [ngModelOptions]="{standalone: true}"></ng-select>
+                                            </ng-container>
+
+                                        </div>
+                                        <ng-container>
+                                            <button type="button" class="btn btn-icon btn-danger"
+                                            ngbTooltip="Delete this row"
+                                            style="width: 35px; height: 35px;"
+                                            (click)="onDecreamentClick(i,attributeArray)">x</button>
+                                        </ng-container>
+                                    </div>
+                                    <br>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-icon btn-primary" ngbTooltip="Update"
+                                            (click)="onUpdateJointAttribute(jointAttribute)">
+                                            <i class="feather icon-refresh-cw"></i> &nbsp; Update</button>
+                                        &nbsp;&nbsp;
+                                        <button type="button" class="btn btn-icon btn-danger" ngbTooltip="Deassign"
+                                            (click)="onDeassignJointAttribute(jointAttribute)">
+                                            <i class="feather icon-slash"></i>&nbsp; Deassign</button>
+                                    </div>
+                                </ng-container>
+
+                            </span>
+                        </app-card>
+
+                    </div>
+                </div>
+                <!-- Joint Attributes Ends -->
+
+
+                <br>
+                <hr>
+
+
+                <!-- Add New Button Starts -->
+                <div class="row" *ngIf="dataLoaded">
+                    <div class="col-sm-12">
+                        <div class="card text-white bg-primary">
+                            <a href="javascript:" data-toggle="modal" (click)="addNewAttributeModal.show()">
+                                <div class="card-body text-center" style="height: 100px;">
+                                    <i style="color:white; font-size: 30px;" class="feather icon-plus"></i>
+                                    <h5 class="card-title text-white">Add New</h5>
+                                </div>
+                            </a>
+
+                            <!-- Popup Modal for new attribute -->
+                            <app-ui-modal #addNewAttributeModal dialogClass="modal-dialog-centered" id="myModel">
+                                <div class="app-modal-header">
+                                    <h5 class="modal-title">Add New Attribute</h5>
+                                    <button type="button" class="close basic-close" data-dismiss="modal"
+                                        aria-label="Close" (click)="addNewAttributeModal.hide()"><span
+                                            aria-hidden="true">&times;</span></button>
+                                </div>
+
+                                <div class="app-modal-body">
+                                    <div class="switch switch-primary d-inline m-r-10">
+                                        <input type="checkbox" id="toggleJoint" (change)="onToggleChange($event)">
+                                        <label class="cr" for="toggleJoint"></label>
+                                    </div>
+                                    <label style="color: black;" for="toggleJoint"> Joint Attribute</label>
+                                    <hr>
+
+
+                                    <div [formGroup]="globalAddNewAttributeForm"
+                                        *ngIf="globalSelectedAttributesGroup && !toggleJointAttribute">
+                                        <ng-select [ngClass]="'ng-select'" placeholder="Select Attribute"
+                                            formControlName="attribute_id"
+                                            [items]="globalSelectedAttributesGroup.attributes" bindValue="id"
+                                            bindLabel="title" (change)="getAttributesForNew($event)"></ng-select>
+
+
+
+                                        <div *ngIf="addNewAtbSelected">
+                                            <br>
+                                            <!-- DROPDOWN -->
+                                            <div *ngIf="(addNewAtribute.type == 'DropDown')">
+                                                <ng-select placeholder="Select Value" [items]="addNewAtribute.values"
+                                                    bindValue="value" [clearable]="true" bindLabel="value"
+                                                    formControlName="value"></ng-select>
+                                            </div>
+
+                                            <!-- TEXTBOX -->
+                                            <div *ngIf="(addNewAtribute.type == 'TextBox')">
+                                                <input type="text" placeholder="Enter Value" class="form-control"
+                                                    formControlName="value">
+                                            </div>
+
+                                            <!-- RICH-TEXTBOX -->
+                                            <div *ngIf="(addNewAtribute.type == 'RichTextBox')">
+                                                <!-- <input type="text" placeholder="Enter Value" class="form-control"
+                                                    formControlName="value"> -->
+                                                <dx-html-editor formControlName="value">
+                                                    <dxo-toolbar>
+                                                        <dxi-item formatName="bold"></dxi-item>
+                                                        <dxi-item formatName="italic"></dxi-item>
+                                                        <dxi-item formatName="strike"></dxi-item>
+                                                        <dxi-item formatName="underline"></dxi-item>
+                                                        <dxi-item formatName="orderedList"></dxi-item>
+                                                        <dxi-item formatName="bulletList"></dxi-item>
+                                                        <dxi-item formatName="separator"></dxi-item>
+                                                        <dxi-item formatName="link"></dxi-item>
+                                                        <dxi-item formatName="image"></dxi-item>
+                                                    </dxo-toolbar>
+                                                </dx-html-editor>
+                                            </div>
+
+                                            <!-- RADIO -->
+                                            <div *ngIf="(addNewAtribute.type == 'Radio')">
+                                                <div *ngIf="(addNewAtribute.values.length == 0)">
+                                                    <app-alert type="danger" dismiss="true">Radio box doesn't have any
+                                                        value.</app-alert>
+                                                </div>
+                                                <div *ngFor="let val of addNewAtribute.values"
+                                                    class="radio radio-primary d-inline">
+                                                    <input type="radio" id="{{ val.value }}" value="{{ val.value }}"
+                                                        formControlName="value">
+                                                    <label for="{{ val.value }}" class="cr"
+                                                        style="color: black;">{{ val.value }}</label>
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                            <!-- CHECKBOX -->
+                                            <div *ngIf="(addNewAtribute.type == 'CheckBox')">
+                                                <div *ngIf="(addNewAtribute.values.length == 0)">
+                                                    <app-alert type="danger" dismiss="true">Check box doesn't have any
+                                                        value.</app-alert>
+                                                </div>
+                                                <div *ngFor="let val of addNewAtribute.values"
+                                                    class="checkbox checkbox-primary d-inline">
+                                                    <input type="checkbox" id="{{ val.value }}" formControlName="value">
+                                                    <label for="{{ val.value }}" class="cr">{{ val.value }}</label>
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                            <!-- UNIT -->
+                                            <div
+                                                *ngIf="(addNewAtribute.units.length > 0 && addNewAtribute.type != 'Joint')">
+                                                <br>
+                                                <ng-select placeholder="Select Unit" formControlName="attribute_unit_id"
+                                                    [items]="addNewAtribute.units" bindValue="id" bindLabel="title">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <!-- Toggled Joint Attribute -->
+                                    <div *ngIf="toggleJointAttribute">
+                                        <ng-select [ngClass]="'ng-select'" placeholder="Select Joint Attribute"
+                                            [items]="jointAtrributesList" bindValue="id" bindLabel="name"
+                                            (change)="onChangeToggelAddButton($event)"></ng-select>
+                                    </div>
+
+
+                                </div>
+                                <div class="app-modal-footer">
+                                    <button #forModalClose type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        (click)="addNewAttributeModal.hide()">Close</button>&nbsp;&nbsp;
+                                    <button *ngIf="addButtonEnable" type="button" class="btn btn-primary"
+                                        data-dismiss="modal"
+                                        (click)="onAddNewAttribute(addNewAtribute.type)">Add</button>
+                                </div>
+
+                            </app-ui-modal>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add New Button Ends -->
+
+
+
+            </div>
+        </form>
+    </div>
+</div>

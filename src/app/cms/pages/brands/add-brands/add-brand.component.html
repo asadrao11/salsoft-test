@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <app-card *ngIf="!uploadDataReady" cardTitle="New Brand Information" [options]="false">
+      <hr>
+      <form action="javascript:" [formGroup]="editForm">
+        <div class="form-row">
+
+          <div class="form-group col-md-3 text-center">
+            <div class="form-group text-center">
+              <span class="bg-light d-inline-block mr-2 border border rounded text-center" style="width: 60%; height: 90%;" placement="auto">
+                <img id="image_box" [src]="imagePath" style="width: 100%; height: 100%;" />
+              </span>
+              <div class="text-center" style="margin-top: 10px;"><b>{{selectedLogoName}}</b></div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-9">
+
+            <div class="form-group">
+              <label for="inputName">Name</label>
+              <input type="text" class="form-control" formControlName="name" id="inputName" placeholder="Brand Name">
+              <div ngxErrors="name" class="error">
+                <div ngxError="required" when="touched">Field is required</div>
+              </div>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="inputLogo">Logo</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="logoInput($event)">
+                <label class="custom-file-label" for="inputGroupFile04">{{ selectedLogoName }}</label>
+              </div>
+            </div>
+            <br>
+            <div class="form-group">
+              <div class="switch switch-primary d-inline m-r-10">
+                <input type="checkbox" formControlName="active" id="gridCheck">
+                <label class="cr" for="gridCheck"></label>
+              </div>
+              <label type="button" for="gridCheck">Active</label>
+            </div>
+
+
+            <button type="button" class="btn btn-primary" [disabled]="editForm.invalid" type="submit" (click)="onSubmit()">
+              <span *ngIf="submitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+              <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+              <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-save"> </i> &nbsp;Save</span>
+            </button>
+
+          </div>
+        </div>
+      </form>
+    </app-card>
+
+
+
+
+
+
+    <!-- Bulk Uploading Component -->
+
+    <app-card cardTitle="Bulk Upload Brands Information" [options]="false">
+      <a href="../../../../../assets/Uploading-Templates/Brands Template.xlsx" type="button"
+        class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+        style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+      <div class="input-group cust-file-button">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="handleFileInput($event)">
+          <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" (click)="fileUpload()" [disabled]="uploadDataReady">Load
+            Data</button>
+        </div>
+      </div>
+
+      <div *ngIf="uploadDataReady" class="text-center">
+        <hr>
+        <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+            class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+          Uploading</button>
+      </div>
+    </app-card>
+
+
+    <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+      <div class="table-responsive">
+        <table datatable class="table table-hover m-b-0">
+          <thead>
+            <tr>
+              <th>Brand</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of dataForUploading">
+              <td>{{data.name}}</td>
+              <td>
+                <span *ngIf="data.active" class="badge badge-light-primary">Active</span>
+                <span *ngIf="!data.active" class="badge badge-light-danger">Inactive</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+
+
+
+
+
+
+    <!-- Bulk Picture Uploading -->
+    <!-- <app-card cardTitle="Bulk Picture Uploading For Brands" [options]="false">
+      <form [formGroup]="pictureFormGroup">
+        <file-upload formControlName="files"></file-upload>
+      </form>
+      <div class="text-center m-t-20">
+        <button class="btn btn-primary">Upload Now</button>
+      </div>
+    </app-card> -->
+
+
+
+
+  </div>
+</div>

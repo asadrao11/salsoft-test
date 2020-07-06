@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-sm-12">
+
+
+        <app-card cardClass="card-datatable" [options]="false">
+            <div class="dt-responsive table-responsive">
+                <table id="dataTable" datatable [dtOptions]="dtOptions" class="table table-sm" style="width: 100%;">
+                </table>
+            </div>
+        </app-card>
+
+
+
+        
+        <br>
+        <br>
+        <h5 class="mt-4">Bulk Upload Section</h5>
+        <hr>
+
+
+        <app-card cardTitle="Upload Product Images" [options]="false">
+            <div class="custom-file">
+                <input type="file" accept=".zip" class="custom-file-input" id="inputGroupFile04"
+                    (change)="handleZipFileInput($event)">
+                <label class="custom-file-label" for="inputGroupFile04">{{selectedFileName}}</label>
+            </div>
+            <div class="text-center m-t-20">
+                <button class="btn btn-primary" (click)="imageUploadClick()" style="width: 250px;">
+                    <span *ngIf="submitLoader" class="spinner-border spinner-border-sm" role="status"></span>
+                    <span *ngIf="submitLoader" class="load-text"> Uploading...</span>
+                    <span *ngIf="!submitLoader" class="btn-text"><i class="feather icon-upload-cloud"> </i>
+                        &nbsp;&nbsp;Upload</span>
+                </button>
+            </div>
+        </app-card>
+
+
+        <!-- Bulk Uploading Component -->
+
+        <app-card cardTitle="Bulk  Assign Images To Products" [options]="false">
+            <a href="../../../../../assets/Uploading-Templates/Assign Images To Product Template.xlsx"
+                type="button" class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+                style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+            <div class="input-group cust-file-button">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04"
+                        (change)="handleFileInput($event)">
+                    <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="fileUpload()"
+                        [disabled]="uploadDataReady">Load Data
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="uploadDataReady" class="text-center">
+                <hr>
+                <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                        class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+                    Uploading
+                </button>
+            </div>
+        </app-card>
+
+        <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Product SKU</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataForUploading">
+                            <td>{{ data.product_sku }}</td>
+                            <td>{{ data.image }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,270 @@
+<div class="row">
+    <div class="col-md-12">
+        <app-card cardClass="card-datatable" [options]="false">
+            <div class="dt-responsive table-responsive">
+
+                <perfect-scrollbar [style.max-height]="'100%'" [style.max-width]="'100%'">
+                    <table id="dataTable" datatable [dtOptions]="dtOptions" class="table table-hover m-b-0"
+                        style="width: 100%;"></table>
+                </perfect-scrollbar>
+
+            </div>
+        </app-card>
+    </div>
+</div>
+
+
+
+<!-- View Order Items Modal -->
+
+<a href="javascript:" #viewItemsModalOpen data-toggle="modal" (click)="viewOrderItemsModal.show()"
+    style="visibility: hidden;"></a>
+
+<app-ui-modal #viewOrderItemsModal dialogClass="modal-dialog-centered" [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h5 class="modal-title">View Items</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="viewOrderItemsModal.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="app-modal-body">
+        <perfect-scrollbar [style.max-height]="'100%'" [style.max-width]="'100%'">
+            <table *ngIf="itemList" datatable class="table table-striped table-bordered nowrap table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Order ID</th>
+                        <th>Product ID</th>
+                        <th>Status</th>
+                        <th>SKU</th>
+                        <th>Product Title</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                        <th>Unit Discount</th>
+                        <th>Total Discount</th>
+                        <th>Is Virtual</th>
+                        <th>Qty Ordered</th>
+                        <th>Qty Cancelled</th>
+                        <th>Qty Shipped</th>
+                        <th>Qty Delivered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr></tr>
+                    <tr *ngFor="let item of itemList">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.order_id }}</td>
+                        <td>{{ item.product_id }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>{{ item.sku }}</td>
+                        <td>{{ item.product_title }}</td>
+                        <td>{{ item.unit_price }}</td>
+                        <td>{{ item.total_price }}</td>
+                        <td>{{ item.unit_discount_amount }}</td>
+                        <td>{{ item.total_discount_amount }}</td>
+                        <td>{{ item.is_virtual }}</td>
+                        <td>{{ item.qty_ordered }}</td>
+                        <td>{{ item.qty_cancelled }}</td>
+                        <td>{{ item.qty_shipped }}</td>
+                        <td>{{ item.qty_delivered }}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </perfect-scrollbar>
+    </div>
+
+    <div class="app-modal-footer">
+        <button #viewItemsModalClose type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="viewOrderItemsModal.hide()">Close</button>
+    </div>
+</app-ui-modal>
+
+
+
+
+<!-- Edit Order Modal -->
+
+<a href="javascript:" #editOrderModalOpen data-toggle="modal" (click)="editOrderModal.show()"
+    style="visibility: hidden;"></a>
+
+<app-ui-modal #editOrderModal dialogClass="modal-dialog-centered" [dialogClass]="'modal-sm'">
+    <div class="app-modal-header">
+        <h5 class="modal-title">Edit Order</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="editOrderModal.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="app-modal-body">
+        <form [formGroup]="editOrderForm">
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Order ID </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="id" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Customer ID </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="customer_id" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Payment Type </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="payment_type" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">State </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="state" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Status </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <ng-select [ngClass]="'ng-select'"
+                    placeholder="Select Order Status"
+                    formControlName="status"
+                    [items]="orderStatuses"
+                    [multiple]="false"
+                    (change) = "changeOrderStatus($event)"
+                    bindLabel="name"
+                    bindLabel="name"></ng-select>
+                    <!-- <input readonly type="text" formControlName="status" class="form-control"> -->
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Is Guest </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="is_guest" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">IP Address </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="ip_address" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Sale Origin </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="sale_origin" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Qty Ordered </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="qty_ordered" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Discount </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="discount_amount" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Shipping </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="shipping_amount" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Sub Total </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="sub_total" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Grand Total </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="grand_total" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Total Paid </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="total_paid" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Is On Hold </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="is_on_hold" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Created at </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="created_at" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Updated at</label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="updated_at" class="form-control">
+                </div>
+            </div>
+
+            
+        </form>
+    </div>
+
+    <div class="app-modal-footer">
+        <button #editOrderModalClose type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="editOrderModal.hide()">Close</button>
+    </div>
+</app-ui-modal>

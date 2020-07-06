@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <br>
+
+        <app-card cardTitle="Assign Attribute Group To Products" [options]="false">
+            <a href="../../../../../assets/Uploading-Templates/Assign Attribute Group To Product Template.xlsx"
+                type="button" class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+                style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+            <div class="input-group cust-file-button">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04"
+                        (change)="handleFileInput($event)">
+                    <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="fileUpload()"
+                        [disabled]="uploadDataReady">Load Data
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="uploadDataReady" class="text-center">
+                <hr>
+                <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                        class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+                    Uploading
+                </button>
+            </div>
+        </app-card>
+
+        <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Product With ID</th>
+                            <th>Attribute Group With ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataForUploading">
+                            <td>
+                                <!-- <span class="badge badge-light-primary">{{ data.product_id + " : " + data.product_name }}</span> -->
+                                {{ data.product_id }}
+                            </td>
+                            <td>
+                                <!-- <span class="badge badge-light-danger">{{ data.attribute_group_id  + " : " +  data.attribute_group_name }}</span> -->
+                                {{ data.attribute_group_id }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+
+
+
+        <!-- Bulk Uploading Component 2 -->
+
+        <app-card cardTitle="Assign Attributes & Values To Products" [options]="false">
+            <a href="../../../../../assets/Uploading-Templates/Assign Attributes To Product Template.xlsx" type="button"
+                class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+                style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+            <div class="input-group cust-file-button">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04"
+                        (change)="handleFileInput2($event)">
+                    <label class="custom-file-label" for="inputGroupFile04">{{filename2}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="fileUpload2()"
+                        [disabled]="uploadDataReady2">Load Data
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="uploadDataReady2" class="text-center">
+                <hr>
+                <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                        class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+                    Uploading
+                </button>
+            </div>
+        </app-card>
+
+        <app-card *ngIf="uploadDataReady2" cardTitle="Data is ready for upload" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Attribute</th>
+                            <th>Unit</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataForUploading2">
+                            <td>
+                                <!-- <span class="badge badge-primary">{{ data.product_id + " : " + data.product_name}}</span> -->
+                                {{ data.product_id }}
+                            </td>
+                            <td>
+                                <!-- <span class="badge badge-danger">{{ data.attribute_id  + " : " +  data.attribute_name}}</span> -->
+                                {{ data.attribute_id }}
+                            </td>
+                            <td>
+                                <!-- <span class="badge badge-warning">{{ data.attribute_unit_id  + " : " +  data.unit_name}}</span> -->
+                                {{ data.attribute_unit_id }}
+                            </td>
+                            <td>{{ data.value }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+    </div>
+</div>

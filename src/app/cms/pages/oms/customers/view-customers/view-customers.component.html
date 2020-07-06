@@ -1,0 +1,184 @@
+<div class="row">
+    <div class="col-md-12">
+        <app-card cardClass="card-datatable" [options]="false">
+            <div class="dt-responsive table-responsive">
+
+                <perfect-scrollbar [style.max-height]="'100%'" [style.max-width]="'100%'">
+                    <table id="dataTable" datatable [dtOptions]="dtOptions" class="table table-hover m-b-0"
+                        style="width: 100%;"></table>
+                </perfect-scrollbar>
+
+            </div>
+        </app-card>
+    </div>
+</div>
+
+
+
+<!-- View Order Items Modal -->
+
+<a href="javascript:" #viewItemsModalOpen data-toggle="modal" (click)="viewOrderItemsModal.show()"
+    style="visibility: hidden;"></a>
+
+<app-ui-modal #viewOrderItemsModal dialogClass="modal-dialog-centered large" [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h5 class="modal-title">View Orders</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="viewOrderItemsModal.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="app-modal-body">
+        <perfect-scrollbar [style.max-height]="'100%'" [style.max-width]="'100%'">
+            <table *ngIf="itemList" datatable class="table table-striped table-bordered nowrap table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Order ID</th>
+                        <th>Product ID</th>
+                        <th>Status</th>
+                        <th>SKU</th>
+                        <th>Product Title</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                        <th>Unit Discount</th>
+                        <th>Total Discount</th>
+                        <th>Is Virtual</th>
+                        <th>Qty Ordered</th>
+                        <th>Qty Cancelled</th>
+                        <th>Qty Shipped</th>
+                        <th>Qty Delivered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr></tr>
+                    <tr *ngFor="let item of itemList">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.order_id }}</td>
+                        <td>{{ item.product_id }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>{{ item.sku }}</td>
+                        <td>{{ item.product_title }}</td>
+                        <td>{{ item.unit_price }}</td>
+                        <td>{{ item.total_price }}</td>
+                        <td>{{ item.unit_discount_amount }}</td>
+                        <td>{{ item.total_discount_amount }}</td>
+                        <td>{{ item.is_virtual }}</td>
+                        <td>{{ item.qty_ordered }}</td>
+                        <td>{{ item.qty_cancelled }}</td>
+                        <td>{{ item.qty_shipped }}</td>
+                        <td>{{ item.qty_delivered }}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </perfect-scrollbar>
+    </div>
+
+    <div class="app-modal-footer">
+        <button #viewItemsModalClose type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="viewOrderItemsModal.hide()">Close</button>
+    </div>
+</app-ui-modal>
+
+
+
+
+
+
+
+
+<!-- Edit Order Modal -->
+
+<a href="javascript:" #editCustomerModalOpen data-toggle="modal" (click)="editCustomerModal.show()"
+    style="visibility: hidden;"></a>
+
+<app-ui-modal #editCustomerModal dialogClass="modal-dialog-centered" [dialogClass]="'modal-sm'">
+    <div class="app-modal-header">
+        <h5 class="modal-title">Edit Customer</h5>
+        <button #editCustomerModalClose type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="editCustomerModal.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="app-modal-body">
+        <form [formGroup]="editCustomerForm">
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">ID </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="id" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Website ID </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input readonly type="text" formControlName="web_id" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">First Name </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" formControlName="first_name" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Last Name </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" formControlName="last_name" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Email </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" formControlName="email" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Phone </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" formControlName="phone" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <b><label style="margin-top: 10px;">Active </label></b>
+                </div>
+                <div class="form-group col-md-10">
+                    <div class="switch switch-primary d-inline m-r-10">
+                        <input type="checkbox" formControlName="active" id="gridCheck">
+                        <label class="cr" for="gridCheck"></label>
+                    </div>
+                    <label type="button" for="gridCheck">Active</label>
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <button type="button" class="btn btn-primary" type="submit" style="width: 100%; margin-bottom: 10px;" [disabled]="editCustomerForm.invalid"
+                        (click)="onCustomerUpdate()"><i class="feather icon-save"> </i> &nbsp;Update
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 100%;"
+                        (click)="onEditCustomerClose()">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</app-ui-modal>

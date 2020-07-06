@@ -1,0 +1,39 @@
+<div class="auth-wrapper" style="background : linear-gradient(45deg, #E13E01, #EB7E55)">
+  <div class="auth-content">
+    <div class="card">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12">
+          <form action="javascript:" [formGroup]="login">
+            <div class="card-body">
+              <img style="width: 50%; height: 50%" src="assets/images/12.jpg" alt="" class="img-fluid mb-4">
+              <h4 class="mb-3 f-w-400">Signin</h4>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="feather icon-mail"></i></span>
+                </div>
+                <input type="email" formControlName="email" class="form-control" placeholder="Email address">
+              </div>
+              <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="feather icon-lock"></i></span>
+                </div>
+                <input type="password" formControlName="password" class="form-control" placeholder="Password">
+              </div>
+
+              <div class="form-group text-left mt-2">
+              </div>
+
+              <button class="btn btn-block btn-primary mb-4"
+                style="background-color: #E13E01; border: #EB7E55; height: 50px" (click)="onSubmit()">
+                <span *ngIf="staticSubmitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+                <span *ngIf="staticSubmitLoader" class="load-text"> Loading...</span>
+                <span *ngIf="!staticSubmitLoader" class="btn-text">Signin</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

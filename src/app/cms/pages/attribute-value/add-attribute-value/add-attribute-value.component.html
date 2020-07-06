@@ -1,0 +1,221 @@
+<div class="row">
+    <div class="col-sm-3">
+        <app-card cardTitle="Add New Values" [options]="false">
+            <form action="javascript:" [formGroup]="addForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputValues">Values</label>
+                        <tag-input [ngClass]="'tag-select'" theme='bootstrap' formControlName="values" id="inputValues"
+                            placeholder="Enter values" [placeholder]="'+ Enter Values'" [addOnBlur]="true"
+                            [clearOnBlur]="true">
+                        </tag-input>
+                        <div ngxErrors="values" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" [disabled]="addForm.invalid" type="submit"
+                    (click)="onSubmitValue()"><i class="feather icon-plus"> </i> &nbsp;Add
+                </button>
+            </form>
+        </app-card>
+    </div>
+
+
+
+
+    <div class="col-sm-9">
+        <app-card cardTitle="Assign Values to Attributes" [options]="false">
+
+            <div *ngIf="!formLoad" class="d-flex justify-content-center">
+                <div class="spinner-grow text-warning" style="width: 4rem; height: 4rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <form action="javascript:" [formGroup]="addDetailForm" *ngIf="formLoad">
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputCategory">Category</label>
+                        <ng-select [ngClass]="'ng-select'" placeholder="Select Category" formControlName="categories"
+                            [items]="categoryDropDown" id="inputCategory" [multiple]="true" bindValue="id"
+                            bindLabel="name">
+                        </ng-select>
+                        <div ngxErrors="categories" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputAttribute">Attribute</label>
+                        <ng-select [ngClass]="'ng-select'" placeholder="Select Attributes" formControlName="attributes"
+                            [items]="attributeDropDown" id="inputAttribute" [multiple]="true" bindValue="id"
+                            bindLabel="title">
+                        </ng-select>
+                        <div ngxErrors="attributes" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputValues">Values</label>
+                        <ng-select [ngClass]="'ng-select'" placeholder="Select Values" formControlName="values"
+                            [items]="valuesDropDown" id="inputValues" [multiple]="true" bindValue="id"
+                            bindLabel="value">
+                        </ng-select>
+                        <div ngxErrors="values" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <button type="button" class="btn btn-primary" [disabled]="addDetailForm.invalid" type="submit"
+                    (click)="onSubmitDetails()"><i class="feather icon-save"> </i> &nbsp;Save
+                </button>
+            </form>
+
+        </app-card>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Bulk Uploading Component -->
+<div class="row">
+    <div class="col-sm-12">
+        <h5 class="mt-4" style="margin-top: 50px;">Bulk Upload Section</h5>
+        <hr>
+
+        <app-card cardTitle="Bulk Upload Attribute Values Information" [options]="false">
+            <a href="../../../../../assets/Uploading-Templates/Attribute Value Template.xlsx" type="button"
+                class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+                style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+            <div class="input-group cust-file-button">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04"
+                        (change)="handleFileInput($event)">
+                    <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="fileUpload()"
+                        [disabled]="uploadDataReady">Load Data
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="uploadDataReady" class="text-center">
+                <hr>
+                <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                        class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+                    Uploading
+                </button>
+            </div>
+        </app-card>
+
+        <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataForUploading">
+                            <td>{{data.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+
+        <br>
+        <hr>
+        <br>
+
+
+        <app-card cardTitle="Bulk Assign Values to Attribute" [options]="false">
+            <a href="../../../../../assets/Uploading-Templates/Assign Values To Attributes Template.xlsx" type="button"
+                class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+                style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+            <div class="input-group cust-file-button">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" (change)="handleFileInput2($event)">
+                    <label class="custom-file-label">{{filename2}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="fileUpload2()"
+                        [disabled]="uploadDataReady2">Load Data
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="uploadDataReady2" class="text-center">
+                <hr>
+                <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                        class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+                    Uploading
+                </button>
+            </div>
+        </app-card>
+
+        <app-card *ngIf="uploadDataReady2" cardTitle="Data is ready for upload" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Category IDs</th>
+                            <th>Attribute IDs</th>
+                            <th>Value IDs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataForUploading2">
+                            <td>{{data.categories}}</td>
+                            <td>{{data.attributes}}</td>
+                            <td>{{data.values}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+
+    </div>
+</div>

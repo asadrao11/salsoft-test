@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-sm-12" *ngIf="editForm">
+    <app-card cardTitle="Edit User Information" [options]="false">
+
+
+      <hr>
+      <form action="javascript:" [formGroup]="editForm">
+        <div class="form-row">
+
+          <div class="form-group col-md-6">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" formControlName="email" id="inputEmail" placeholder="Email">
+            <div ngxErrors="email" class="error">
+              <div ngxError="required" when="touched">
+                Field is required
+              </div>
+              <div ngxError="email" when="touched">
+                email format is incorrect
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="form-group col-md-6">
+
+            <label for="inputPassword4">Password</label>
+            <input type="password" class="form-control" formControlName="password" id="inputPassword4"
+              placeholder="Password">
+            <div ngxErrors="password" class="error">
+              <div ngxError="required" when="touched">
+                Field is required
+              </div>
+              <div ngxError="minlength">
+                password should minimum of 8 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <div class="form-group">
+              <label for="inputName">Name</label>
+              <input type="text" class="form-control" formControlName="name" id="inputName" placeholder="Full Name">
+            </div>
+            <div ngxErrors="name" class="error">
+              <div ngxError="required" when="touched">
+                Field is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="inputType">Type</label>
+            <ng-select [ngClass]="'ng-select'" (click)="onSelect()" placeholder="Select user type" id="inputType"
+              formControlName="role" [items]="userTypes" bindValue="name" bindLabel="name" [(ngModel)]="selectedUserType"> </ng-select>
+            <div ngxErrors="role" class="error">
+              <div ngxError="required" when="touched">
+                Please select role your role
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <div class="form-group">
+              <div class="switch switch-primary d-inline m-r-10">
+                <input type="checkbox" formControlName="active" id="gridCheck">
+                <label class="cr" for="gridCheck"></label>
+              </div>
+              <label type="button" for="gridCheck">Active</label>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="!isMember">
+            <div class="form-group">
+              <ng-select [ngClass]="'ng-select'" placeholder="Select sites" formControlName="websites"
+                [items]="website" bindLabel="name" [(ngModel)]="selectedWebsites" [multiple]="true"></ng-select>
+            </div>
+          </div>
+
+        </div>
+
+
+        <button type="button" class="btn btn-primary" [disabled]="editForm.invalid" type="submit" (click)="onSubmit()"><i
+            class="feather icon-save"> </i> &nbsp;Save</button>
+
+      </form>
+
+
+
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <app-card cardClass="card-datatable" [options]="false">
+            <div class="dt-responsive table-responsive">
+                <table id="dataTable" datatable [dtOptions]="dtOptions" class="table table-sm" style="width: 100%;">
+                </table>
+            </div>
+        </app-card>
+
+
+        <!-- <app-card [hidHeader]="true" cardClass="user-profile-list">
+
+            <div *ngIf="!dataLoaded" class="d-flex justify-content-center">
+                <div class="spinner-grow text-warning" style="width: 4rem; height: 4rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div *ngIf="dataLoaded" class="dt-responsive table-responsive">
+                <table datatable class="table table-striped row-border table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr *ngFor="let category of categories">
+                        <td>{{category.id}}</td>
+                        <td>{{category.name}}</td>
+                        <td>{{category.created_at}}</td>
+                        <td>{{category.updated_at}}</td>
+                        <td>
+                            <span *ngIf="category.active" class="badge badge-light-success">Active</span>
+                            <span *ngIf="!category.active" class="badge badge-light-danger">Inactive</span>
+                            <div class="overlay-edit">
+                                <button type="button" [routerLink]="['/public/edit-category', category.id]"
+                                        ngbTooltip="Edit Category"
+                                        class="btn btn-icon btn-success">
+                                    <i class="feather icon-edit"></i>
+                                </button>
+                                <button type="button" (click)="deleteCategory(category.id)"
+                                        ngbTooltip="Delete Category"
+                                        class="btn btn-icon btn-danger">
+                                    <i class="feather icon-trash-2"></i>
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Status</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </app-card> -->
+    </div>
+</div>

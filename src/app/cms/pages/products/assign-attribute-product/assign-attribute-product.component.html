@@ -1,0 +1,179 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <app-card cardTitle="Assign Attribute Group And Attributes to Product" [options]="false">
+            <div class="text-center" *ngIf="productData">
+                <h5><span class="badge badge-primary"
+                        ngbTooltip="Selected Product">{{ productData.name }}</span></h5>
+            </div>
+            <br>
+            <form action="javascript:" [formGroup]="addForm">
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="form-group">
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Attribute Group"
+                                formControlName="attribute_group" [items]="attributeGroupList" bindLabel="name"
+                                bindValue="id" [loading]="attributeGroupLoading" loadingText="Loading..."
+                                (change)="getAttributes($event)"></ng-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center" *ngIf="attributeLoading">
+                    <div class="col-md-12">
+                        <div class="spinner-border" style=" color: #fd7e14; width: 3rem; height: 3rem; margin-top: 20%;" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                        <br>
+                        <span style="color: #fd7e14; font-weight: bold; margin-top: 10px;">Please wait...</span>
+                    </div>
+                </div>
+                <br>
+
+
+                <ng-container *ngIf="attributeDataLoaded">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <h5>Attributes</h5>
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3"></div>
+                        <div class="form-group col-md-6">
+                            <button type="button" class="btn btn-primary" style="width: 100%; height: 100%;"
+                                type="submit" (click)="onSubmit()">
+                                <span *ngIf="submitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+                                <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+                                <i *ngIf="!submitLoader" class="feather icon-save"></i>
+                                <span *ngIf="!submitLoader" class="btn-text">&nbsp;&nbsp;Assign All Attributes</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngFor="let attributes of t.controls; index as i">
+                        <span class="bg-light d-inline-block mr-2 border"
+                            style="height: 100%; width: 100%; padding: 25px;" placement="auto">
+                            <div [formGroup]="attributes">
+                                <div class="form-row">
+                                    <h5><span class="badge badge-light-danger">{{ attributeList[i].title }}</span></h5>
+                                    <br>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-5">
+                                        <div class="form-group">
+                                            <b><label>Value</label></b>
+
+
+                                            <!-- DROPDOWN -->
+                                            <div *ngIf="(attributeList[i].type == 'DropDown')">
+                                                <ng-select placeholder="Select Value" [items]="attributeList[i].values"
+                                                    bindValue="value" bindLabel="value" formControlName="value">
+                                                </ng-select>
+                                            </div>
+
+                                            <!-- MULTI SELECT DROPDOWN -->
+                                            <div *ngIf="(attributeList[i].type == 'Multi-Select-DropDown')">
+                                                <ng-select placeholder="Select Value" [items]="attributeList[i].values"
+                                                    bindValue="id" [multiple]="true" bindLabel="value" formControlName="value"></ng-select>
+                                            </div>
+
+                                            <!-- TEXTBOX -->
+                                            <div *ngIf="(attributeList[i].type == 'TextBox')">
+                                                <input type="text" placeholder="Enter Value" class="form-control"
+                                                    formControlName="value">
+                                            </div>
+
+                                            <!-- RICH-TEXTBOX -->
+                                            <div *ngIf="(attributeList[i].type == 'RichTextBox')">
+                                                <dx-html-editor formControlName="value"
+                                                    [(value)]="attributeList[i].pivot.value">
+                                                    <dxo-toolbar>
+                                                        <dxi-item formatName="bold"></dxi-item>
+                                                        <dxi-item formatName="italic"></dxi-item>
+                                                        <dxi-item formatName="strike"></dxi-item>
+                                                        <dxi-item formatName="underline"></dxi-item>
+                                                        <dxi-item formatName="orderedList"></dxi-item>
+                                                        <dxi-item formatName="bulletList"></dxi-item>
+                                                        <dxi-item formatName="separator"></dxi-item>
+                                                        <dxi-item formatName="link"></dxi-item>
+                                                        <dxi-item formatName="image"></dxi-item>
+                                                    </dxo-toolbar>
+                                                </dx-html-editor>
+                                            </div>
+
+                                            <!-- RADIO -->
+                                            <div *ngIf="(attributeList[i].type == 'Radio')">
+                                                <div *ngIf="(attributeList[i].values.length == 0)">
+                                                    <app-alert type="danger" dismiss="true">Radio box doesn't have any
+                                                        value.
+                                                    </app-alert>
+                                                </div>
+                                                <div *ngFor="let val of attributeList[i].values"
+                                                    class="radio radio-primary d-inline">
+                                                    <input type="radio" id="{{ val.value }}" value="{{ val.value }}"
+                                                        formControlName="value">
+                                                    <label for="{{ val.value }}" class="cr">{{ val.value }}</label>
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                            <!-- CHECKBOX -->
+                                            <div *ngIf="(attributeList[i].type == 'CheckBox')">
+                                                <div *ngIf="(attributeList[i].values.length == 0)">
+                                                    <app-alert type="danger" dismiss="true">Check box doesn't have any
+                                                        value.
+                                                    </app-alert>
+                                                </div>
+                                                <div *ngFor="let val of attributeList[i].values"
+                                                    class="checkbox checkbox-primary d-inline">
+                                                    <input type="checkbox" id="{{ val.value }}" formControlName="value">
+                                                    <label for="{{ val.value }}" class="cr">{{ val.value }}</label>
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-1"></div>
+
+                                    <div class="form-group col-md-5">
+                                        <div class="form-group">
+                                            <div *ngIf="(attributeList[i].units.length > 0)">
+                                                <b><label>Unit</label></b>
+                                                <ng-select placeholder="Select Unit" [items]="attributeList[i].units"
+                                                    bindValue="id" bindLabel="title" formControlName="attribute_unit_id">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                        <br>
+                        <br>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3"></div>
+                        <div class="form-group col-md-6">
+                            <button type="button" class="btn btn-primary" style="width: 100%; height: 100%;"
+                                type="submit" (click)="onSubmit()">
+                                <span *ngIf="submitLoader" class="spinner-grow spinner-grow-sm" role="status"></span>
+                                <span *ngIf="submitLoader" class="load-text"> Loading...</span>
+                                <i *ngIf="!submitLoader" class="feather icon-save"></i>
+                                <span *ngIf="!submitLoader" class="btn-text">&nbsp;&nbsp;Assign All Attributes</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </ng-container>
+            </form>
+        </app-card>
+
+    </div>
+</div>

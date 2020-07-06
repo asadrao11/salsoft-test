@@ -1,0 +1,153 @@
+<div class="row text-center" *ngIf="!dataLoaded">
+    <div class="col-md-12">
+        <div class="spinner-border" style=" color: #fd7e14; width: 3rem; height: 3rem; margin-top: 20%;" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <br>
+        <span style="color: #fd7e14; font-weight: bold; margin-top: 10px;">Please wait...</span>
+    </div>
+</div>
+
+<div class="container" *ngIf="dataLoaded">
+    <div class="card">
+        <br>
+        <br>
+        <div class="row" style="padding-left: 30px; padding-right: 30px;">
+            <div class="col-sm-12">
+                <h3>{{productData?.name}}</h3>
+                <hr>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row invoive-info">
+                <div class="col-md-6 col-sm-6">
+                    <table class="table table-responsive invoice-table invoice-order table-borderless">
+                        <tbody>
+                            <tr>
+                                <th>SKU: </th>
+                                <td>{{productData?.SKU}}</td>
+                            </tr>
+                            <tr>
+                                <th>Category: </th>
+                                <td>{{productData?.category.name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Brand: </th>
+                                <td>{{productData?.brand.name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Attribute Group: &nbsp;&nbsp;</th>
+                                <td>{{productData?.AttributeGroup.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <ng-container *ngFor="let img of imagesAssigned">
+                        <div class="form-group col-md-4 text-center">
+                            <div class="form-group text-center">
+                              <span class="bg-light d-inline-block mr-2 border border rounded text-center"
+                                style="width: 60%; height: 80%;" placement="auto">
+                                <img id="image_box" [src]="img.imageUrl" style="width: 100%; height: 100%;" />
+                              </span>
+                              <div class="text-center" style="margin-top: 10px;"><b>{{img.image}}</b></div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>Description :</h5>
+                    <hr>
+                    <p [innerHTML]="productData.description"></p>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>Attributes :</h5>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row invoive-info">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-11">
+                    <table class="table table-responsive invoice-table invoice-order table-borderless">
+                        <tbody>
+                            <tr *ngFor="let attr of productData.attributes; index as i">
+                                <th>{{attr.title}} :&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                
+                                <td *ngIf="(!attr.pivot.value)" [innerHTML]="'N/A'"></td>
+                                <td *ngIf="(attr.pivot.value && !attr.details)" [innerHTML]="attr.pivot.value + ' ' + unitData[i]"></td>
+                                <td *ngIf="attr.details">
+                                    <ul *ngFor="let val of attr.details" style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li>{{ val.value }}</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-responsive invoice-table invoice-order table-borderless">
+                        <tbody>                            
+                            <tr *ngFor="let attr of jointAttributes">
+                                <th>{{attr.name}} :&nbsp;&nbsp;&nbsp;</th>
+                                <td>
+                                    <ul *ngFor="let atb of attr.attributes" style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li>
+                                         <label *ngFor="let item of atb">
+                                            {{ (item.SELECTED_VALUE ? item.SELECTED_VALUE : '') + ' &nbsp;' + (item.SELECTED_UNIT_ID ? item.SELECTED_UNIT_ID.title : '') + '&nbsp;&nbsp;&nbsp;' }}
+                                         </label>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>Accessories :</h5>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row invoive-info">
+                <div class="col-sm-12">
+                    <ul *ngFor="let acc of productData.accessories">
+                        <li>
+                            <b>{{acc.SKU}}</b>
+                            <br>
+                            {{acc.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <button style="width: 90%;" type="button" class="btn btn-primary" type="submit"  [routerLink]="['/public/edit-complete-product', productID]">
+                        <i class="feather icon-edit"> </i> &nbsp;Edit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,174 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="New Attribute Information" [options]="false">
+
+            <hr>
+            <form action="javascript:" [formGroup]="addForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputTitle4">Title</label>
+                        <input type="title" formControlName="title" class="form-control" id="inputTitle4"
+                               placeholder="Title">
+                        <div ngxErrors="title" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                            <div ngxError="title" when="touched">
+                                title format is incorrect
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputshortcode4">Short Code</label>
+                        <input type="short_code" formControlName="short_code" class="form-control" id="inputshortcode4"
+                               placeholder="Short Code">
+                        <div ngxErrors="short_code" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-row">
+
+
+                    <div class="form-group col-md-6">
+                        <label for="inputGroup">Select Attribute Group</label>
+                        <ng-select [ngClass]="'ng-select'" placeholder="Select Group"
+                                   formControlName="attributeGroups"
+                                   [items]="attributeGroupDropDown"
+                                   id="inputGroup"
+                                   [multiple]="true"
+                                   bindLabel="name"></ng-select>
+                        <div ngxErrors="attributeGroups" class="error">
+                            <div ngxError="required" when="touched">
+                                Please select group
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputType">Attribute Type</label>
+
+                        <ng-select [ngClass]="'ng-select'"
+                                   placeholder="Select Type"
+                                   formControlName="type"
+                                   [items]="attributeTypeDropDown"
+                                   id ="inputType"
+                                   [multiple]="false"
+                                   bindLabel="type"></ng-select>
+                        <div ngxErrors="type" class="error">
+                            <div ngxError="required" when="touched">
+                                Please select type
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <div class="switch switch-primary d-inline m-r-10">
+                                <input type="checkbox" formControlName="active" id="gridCheck">
+                                <label class="cr" for="gridCheck"></label>
+                            </div>
+                            <label type="button" for="gridCheck">Active</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <div class="switch switch-danger d-inline m-r-10">
+                                <input type="checkbox" formControlName="is_filter" id="filterCheck">
+                                <label class="cr" for="filterCheck"></label>
+                            </div>
+                            <label type="button" for="filterCheck">Is Filter?</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-primary" [disabled]="addForm.invalid" type="submit"
+                        (click)="onSubmit()"><i class="feather icon-save"> </i> &nbsp;Save
+                </button>
+            </form>
+
+        </app-card>
+
+
+
+
+
+
+        <!-- Bulk Uploading Component -->
+
+        <app-card cardTitle="Bulk Upload Attributes Information" [options]="false">
+            <a href="../../../../../assets/Uploading-Templates/Attributes Template.xlsx" type="button"
+               class="btn btn-icon btn-secondary" ngbTooltip="Download Template"
+               style="margin-left: 95%; margin-bottom: 20px;"><i class="feather icon-download"></i></a>
+            <div class="input-group cust-file-button">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04"
+                           (change)="handleFileInput($event)">
+                    <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="fileUpload()"
+                            [disabled]="uploadDataReady">Load Data
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="uploadDataReady" class="text-center">
+                <hr>
+                <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                        class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+                    Uploading
+                </button>
+            </div>
+        </app-card>
+
+
+        <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+            <div class="table-responsive">
+                <table datatable class="table table-hover m-b-0">
+                    <thead>
+                    <tr>
+                        <th>Attribute Title</th>
+                        <th>Short Code</th>
+                        <th>Attribute Group IDs</th>
+                        <th>Type</th>
+                        <th>Is Filter?</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let data of dataForUploading">
+                        <td>{{data.title}}</td>
+                        <td>{{data.short_code}}</td>
+                        <td>
+                            <span *ngFor="let group of data.attributeGroups">
+                                <!-- <span class="badge m-r-5 badge-pill badge-danger"> {{ group.id + ": "+ group.name }} </span> &nbsp; -->
+                                <span class="badge m-r-5 badge-pill badge-danger"> {{ group }} </span> &nbsp;
+                            </span>
+                        </td>
+                        <td>{{data.type}}</td>
+                        <td>
+                            <span *ngIf="data.is_filter" class="badge badge-light-primary">Yes</span>
+                            <span *ngIf="!data.is_filter" class="badge badge-light-danger">No</span>
+                        </td>
+                        <td>
+                            <span *ngIf="data.active" class="badge badge-light-primary">Active</span>
+                            <span *ngIf="!data.active" class="badge badge-light-danger">Inactive</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+
+
+    </div>
+</div>

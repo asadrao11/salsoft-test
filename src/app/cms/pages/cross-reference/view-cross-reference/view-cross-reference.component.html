@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-12">
+        <app-card  cardClass="card-datatable" [options]="false">
+            <div class="dt-responsive table-responsive">
+                <table id="dataTable" datatable [dtOptions]="dtOptions" class="table table-hover m-b-0"  style="width: 100%;">
+                </table>
+<!-- 
+                <app-ui-modal #exampleModalCenter dialogClass="modal-dialog-centered" id="myModel">
+                    <div class="app-modal-header">
+                        <h5 class="modal-title">Add New Attribute</h5>
+                        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                            (click)="exampleModalCenter.hide()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                        <div [formGroup]="globalAddNewAttributeForm" *ngIf="globalSelectedAttributesGroup">
+                            <ng-select [ngClass]="'ng-select'" placeholder="Select Attribute" formControlName="attribute_id"
+                                [items]="globalSelectedAttributesGroup.attributes" bindValue="id" bindLabel="title" (change)="getAttributesForNew($event)"></ng-select>
+                            <div *ngIf="addNewAtbSelected">
+                                <br>
+                                <input type="text" class="form-control" formControlName="value" placeholder="Attribute Value">
+                                <br>
+                                <ng-select
+                                        [items]="addNewAtbUnits"
+                                        bindValue="id"
+                                        formControlName="attribute_unit_id"
+                                        bindLabel="title"
+                                        placeholder="Select Unit">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-modal-footer">
+                        <button #forModalClose type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="exampleModalCenter.hide()">Close</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onAddNewAttribute()" >Add</button>
+                    </div>
+
+                </app-ui-modal> -->
+
+
+            </div>
+        </app-card>
+    </div>
+</div>

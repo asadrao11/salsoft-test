@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <app-card *ngIf="!uploadDataReady" cardTitle="New Web Cross Reference Information" [options]="false">
+            <hr>
+            <form action="javascript:" [formGroup]="addForm">
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="input_website">Select Website</label>
+                            <ng-select [ngClass]="'ng-select'"
+                                       placeholder="Select Website"
+                                       formControlName="website_id"
+                                       [items]="websiteDropDown"
+                                       id ="input_website"
+                                       [multiple]="false"
+                                       [loading]="websiteLoading"
+                                       loadingText="Loading..."
+                                       bindValue="id"
+                                       bindLabel="name"></ng-select>
+                            <div ngxErrors="website_id" class="error">
+                                <div ngxError="required" when="touched">
+                                    Please select website
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="input_cross_ref">Select Cross Reference</label>
+                            <ng-select [ngClass]="'ng-select'"
+                                       placeholder="Select Cross Reference"
+                                       formControlName="cross_reference_id"
+                                       [items]="crossRefDropDown"
+                                       id ="input_cross_ref"
+                                       [multiple]="false"
+                                       [loading]="crossRefLoading"
+                                       loadingText="Loading..."
+                                       bindValue="id"
+                                       bindLabel="item_number"></ng-select>
+                            <div ngxErrors="cross_reference_id" class="error">
+                                <div ngxError="required" when="touched">
+                                    Please select cross reference
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" formControlName="price" id="price"
+                                   placeholder="Price">
+                        </div>
+                        <div ngxErrors="price" class="error">
+                            <div ngxError="required" when="touched">
+                                Field is required
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <button type="button" class="btn btn-primary" [disabled]="addForm.invalid" type="submit"
+                        (click)="onSubmit()"><i class="feather icon-save"> </i> &nbsp;Save</button>
+            </form>
+
+        </app-card>
+
+
+
+        <!-- Bulk Uploading Component -->
+
+        <!-- <app-card cardTitle="Bulk Upload Brands Information" [options]="false">
+          <a href="../../../../../assets/Uploading-Templates/Brands Template.xlsx" type="button" class="btn btn-icon btn-secondary" ngbTooltip="Download Template" style="margin-left: 95%; margin-bottom: 20px;" ><i class="feather icon-download"></i></a>
+          <div class="input-group cust-file-button">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="handleFileInput($event)">
+              <label class="custom-file-label" for="inputGroupFile04">{{filename}}</label>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" (click)="fileUpload()"
+                [disabled]="uploadDataReady">Load Data</button>
+            </div>
+          </div>
+
+          <div *ngIf="uploadDataReady" class="text-center">
+            <hr>
+            <button type="button" style="width: 300px;" class="btn btn-primary" (click)="startUploading()"><i
+                class="feather icon-check-circle"></i>&nbsp;&nbsp; Start
+              Uploading</button>
+          </div>
+        </app-card>
+
+
+        <app-card *ngIf="uploadDataReady" cardTitle="Data is ready for upload" blockClass="table-border-style">
+          <div class="table-responsive">
+            <table datatable class="table table-hover m-b-0">
+              <thead>
+                <tr>
+                  <th>Brand</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dataForUploading">
+                  <td>{{data.name}}</td>
+                  <td>
+                    <span *ngIf="data.active" class="badge badge-light-primary">Active</span>
+                    <span *ngIf="!data.active" class="badge badge-light-danger">Inactive</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </app-card> -->
+
+    </div>
+</div>
